@@ -15,7 +15,7 @@ export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
-    private readonly prismaService: PrismaService, // fixed typo
+    private readonly prismaService: PrismaService,
   ) {}
 
   /**
