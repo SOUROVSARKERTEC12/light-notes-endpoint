@@ -1,11 +1,65 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { RegisterDto } from './dtos/register.dto';
 import { UserService } from 'src/user/user.service';
+import * as argon2 from 'argon2';
+import { JwtService } from '@nestjs/jwt';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly jwtService: JwtService,
+    private readonly prismaService: PrismaService, // fixed typo
+  ) {}
+
+  /**
+   *  1. check the email already exists?
+   *  2. Hast the password using argon2
+   *  3. Create the user
+   *  4. Generate the JWT token with email and id
+   *  5. Return the token
+   */
+
   async register(registerDto: RegisterDto) {
-    return this.userService.getUserByEmail(registerDto.email);
+    // 1️⃣ Check if email exists
+    const existingUser = await this.userService.getUserByEmail(
+      registerDto.email,
+    );
+    if (existingUser) throw new ConflictException('Email already taken');
+
+    // 2️⃣ Hash password
+    const hashedPassword = await argon2.hash(registerDto.password);
+
+    try {
+      // 3️⃣ Transaction to ensure atomicity
+      const result = await this.prismaService.$transaction(
+        async (prisma: PrismaClient) => {
+          // Create user inside the transaction
+          const user = await this.userService.register(
+            { ...registerDto, password: hashedPassword },
+            prisma,
+          );
+
+          // 4️⃣ Generate JWT
+          const token = this.jwtService.sign({
+            sub: user.id,
+            email: user.email,
+          });
+
+          return { user, token };
+        },
+      );
+
+      // 5️⃣ Return token
+      return { token: result.token };
+    } catch (error) {
+      throw new InternalServerErrorException('Registration failed');
+    }
   }
 }
