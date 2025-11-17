@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsString, IsOptional } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsOptional,
+  IsUUID,
+  IsDate,
+} from 'class-validator';
 
 export class CreateNoteDto {
   @IsString()
@@ -8,4 +14,17 @@ export class CreateNoteDto {
   @IsString()
   @IsNotEmpty({ message: 'Description is required' })
   description: string;
+}
+
+export class ResponseNoteDto {
+  @IsUUID()
+  id: string;
+  @IsString()
+  title: string;
+  @IsString()
+  description: string;
+  @IsDate()
+  createdAt: Date;
+  @IsDate()
+  updateAt: Date;
 }
