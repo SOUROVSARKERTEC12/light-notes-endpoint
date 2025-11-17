@@ -37,3 +37,45 @@ Content-Type: application/json
 {
   "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMjFlZjEyOC04Y2MwLTRkMzMtYTNkNi0zOTUzNWU1OTRkZTAiLCJlbWFpbCI6ImFkbWluNEBleGFtcGxlLmNvbSIsImlhdCI6MTc2MzM5NTE2OSwiZXhwIjoxNzY1OTg3MTY5fQ.oMoHZNoBy1TR2SOCyBjsjRD6IsBMWFi6-U3vHGTme6w"
 }
+
+#################################################
+# NOTE CRUD (All Endpoints)
+# Base URL: http://localhost:8000/api/notes
+#################################################
+
+
+### Create Note
+POST http://localhost:8000/api/notes
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMjFlZjEyOC04Y2MwLTRkMzMtYTNkNi0zOTUzNWU1OTRkZTAiLCJlbWFpbCI6ImFkbWluNEBleGFtcGxlLmNvbSIsImlhdCI6MTc2MzQwNDM0MSwiZXhwIjoxNzYzNDA0NjQxfQ.rnvFF2hyanxybeRnOxqlronAplJLjJ6lpSvb-E7q3zY
+
+{
+  "title": "My first note",
+  "description": "This is a test note"
+}
+
+### Get All Notes
+GET http://localhost:8000/api/notes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMjFlZjEyOC04Y2MwLTRkMzMtYTNkNi0zOTUzNWU1OTRkZTAiLCJlbWFpbCI6ImFkbWluNEBleGFtcGxlLmNvbSIsImlhdCI6MTc2MzQwNDM0MSwiZXhwIjoxNzYzNDA0NjQxfQ.rnvFF2hyanxybeRnOxqlronAplJLjJ6lpSvb-E7q3zY
+
+### Get One Note
+GET http://localhost:8000/api/notes/cac8ad9e-fae8-44e2-8f3b-6323f2a139c5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMjFlZjEyOC04Y2MwLTRkMzMtYTNkNi0zOTUzNWU1OTRkZTAiLCJlbWFpbCI6ImFkbWluNEBleGFtcGxlLmNvbSIsImlhdCI6MTc2MzQwNDM0MSwiZXhwIjoxNzYzNDA0NjQxfQ.rnvFF2hyanxybeRnOxqlronAplJLjJ6lpSvb-E7q3zY
+
+
+### Update Note
+PATCH http://localhost:8000/api/notes/cac8ad9e-fae8-44e2-8f3b-6323f2a139c5
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMjFlZjEyOC04Y2MwLTRkMzMtYTNkNi0zOTUzNWU1OTRkZTAiLCJlbWFpbCI6ImFkbWluNEBleGFtcGxlLmNvbSIsImlhdCI6MTc2MzQwNDM0MSwiZXhwIjoxNzYzNDA0NjQxfQ.rnvFF2hyanxybeRnOxqlronAplJLjJ6lpSvb-E7q3zY
+
+
+{
+  "title": "Updated title",
+  "description": "Updated description"
+}
+
+### Delete Note
+DELETE http://localhost:8000/api/notes/cac8ad9e-fae8-44e2-8f3b-6323f2a139c5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMjFlZjEyOC04Y2MwLTRkMzMtYTNkNi0zOTUzNWU1OTRkZTAiLCJlbWFpbCI6ImFkbWluNEBleGFtcGxlLmNvbSIsImlhdCI6MTc2MzQwNDM0MSwiZXhwIjoxNzYzNDA0NjQxfQ.rnvFF2hyanxybeRnOxqlronAplJLjJ6lpSvb-E7q3zY
+ 
+
