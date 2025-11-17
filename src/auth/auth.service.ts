@@ -4,13 +4,14 @@ import {
   InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { RegisterDto } from './dtos/register.dto';
+import { RegisterDto } from './dto/register.dto';
 import { UserService } from 'src/user/user.service';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PrismaClient } from '@prisma/client';
-import { LoginDto } from './dtos/login.dto';
+import { LoginDto } from './dto/login.dto';
+import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class AuthService {
@@ -80,13 +81,55 @@ export class AuthService {
     const isValid = await argon2.verify(user.password, loginDto.password);
     if (!isValid) throw new UnauthorizedException('Invalid credentials');
 
-    // 3️⃣ Generate JWT
-    const token = this.jwtService.sign({
+    /// Generate tokens
+    const accessToken = this.jwtService.sign({
       sub: user.id,
       email: user.email,
     });
 
-    // 4️⃣ Return token
-    return { token };
+    const refreshToken = this.jwtService.sign(
+      { sub: user.id, email: user.email },
+      { expiresIn: '30d' },
+    );
+
+    await this.userService.setRefreshToken(user.id, refreshToken);
+
+    return {
+      accessToken,
+      refreshToken: refreshToken,
+    };
+  }
+
+  async refresh(refreshToken: string) {
+    const tokenRecord = await this.userService.findRefreshToken(refreshToken);
+    if (!tokenRecord) throw new UnauthorizedException('Invalid refresh token');
+
+    const user = await this.userService.getUserById(tokenRecord.userId);
+    if (!user) throw new UnauthorizedException('User not found');
+
+    // Generate new tokens
+    const newAccessToken = this.jwtService.sign({
+      sub: user.id,
+      email: user.email,
+    });
+
+    const newRefreshToken = this.jwtService.sign(
+      { sub: user.id, email: user.email },
+      { expiresIn: '30d' },
+    );
+
+    // Replace old token with new
+    await this.userService.removeRefreshToken(refreshToken);
+    await this.userService.setRefreshToken(user.id, newRefreshToken);
+
+    return {
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
+    };
+  }
+
+  async logout(refreshToken: string) {
+    await this.userService.removeRefreshToken(refreshToken);
+    return { message: 'Logged out successfully' };
   }
 }

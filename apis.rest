@@ -12,11 +12,28 @@ Content-Type: application/json
   "phoneNumber": "+8801728326959"
 }
 
-###
+### Login
 POST http://localhost:8000/api/login
 Content-Type: application/json
 
 {
   "email": "admin4@example.com",
   "password": "AdminPass123!"
+}
+
+
+### Refresh Token
+POST http://localhost:8000/api/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMjFlZjEyOC04Y2MwLTRkMzMtYTNkNi0zOTUzNWU1OTRkZTAiLCJlbWFpbCI6ImFkbWluNEBleGFtcGxlLmNvbSIsImlhdCI6MTc2MzM5NTE0MSwiZXhwIjoxNzY1OTg3MTQxfQ.iDiXmIQPz8ysGHImboemKjvQRLTHfu473TPrMj9A2ww"
+}
+
+### Logout
+POST http://localhost:8000/api/logout
+Content-Type: application/json
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMjFlZjEyOC04Y2MwLTRkMzMtYTNkNi0zOTUzNWU1OTRkZTAiLCJlbWFpbCI6ImFkbWluNEBleGFtcGxlLmNvbSIsImlhdCI6MTc2MzM5NTE2OSwiZXhwIjoxNzY1OTg3MTY5fQ.oMoHZNoBy1TR2SOCyBjsjRD6IsBMWFi6-U3vHGTme6w"
 }
