@@ -73,6 +73,7 @@ export class NoteService {
   async remove(id: string, userId: string) {
     const note = await this.findOne(id, userId);
 
+    if (!note) throw new NotFoundException('Note not found');
     return this.prismaService.note.delete({
       where: { id: note.id },
     });
