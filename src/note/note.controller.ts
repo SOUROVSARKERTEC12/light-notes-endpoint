@@ -8,6 +8,9 @@ import {
   Delete,
   UseGuards,
   Req,
+  Query,
+  ParseIntPipe,
+  DefaultValuePipe,
 } from '@nestjs/common';
 import { NoteService } from './note.service';
 import { CreateNoteDto } from './dto/create-note.dto';
@@ -26,9 +29,13 @@ export class NoteController {
   }
 
   @Get()
-  async findAll(@Req() req) {
+  async findAll(
+    @Req() req,
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
+  ) {
     const userId: string = req.user.sub;
-    return this.noteService.findAll(userId);
+    return this.noteService.findAll(userId, page, limit);
   }
 
   @Get(':id')

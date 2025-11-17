@@ -19,11 +19,30 @@ export class NoteService {
   }
 
   // Get all notes for authenticated user
-  async findAll(userId: string) {
-    return this.prismaService.note.findMany({
-      where: { userId },
-      orderBy: { createdAt: 'desc' },
-    });
+  async findAll(userId: string, page: number = 1, limit: number = 10) {
+    const skip = (page - 1) * limit;
+
+    const [notes, total] = await this.prismaService.$transaction([
+      this.prismaService.note.findMany({
+        where: { userId },
+        skip,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+      }),
+      this.prismaService.note.count({
+        where: { userId },
+      }),
+    ]);
+
+    return {
+      data: notes,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
   }
 
   // Get a single note — ensure owner

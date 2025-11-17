@@ -47,17 +47,16 @@ Content-Type: application/json
 ### Create Note
 POST http://localhost:8000/api/notes
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMjFlZjEyOC04Y2MwLTRkMzMtYTNkNi0zOTUzNWU1OTRkZTAiLCJlbWFpbCI6ImFkbWluNEBleGFtcGxlLmNvbSIsImlhdCI6MTc2MzQwNDM0MSwiZXhwIjoxNzYzNDA0NjQxfQ.rnvFF2hyanxybeRnOxqlronAplJLjJ6lpSvb-E7q3zY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMjFlZjEyOC04Y2MwLTRkMzMtYTNkNi0zOTUzNWU1OTRkZTAiLCJlbWFpbCI6ImFkbWluNEBleGFtcGxlLmNvbSIsImlhdCI6MTc2MzQwNTQ5MiwiZXhwIjoxNzYzNDA1NzkyfQ.snGThXVEpvbY_FX1Jkvo0VJCsWGfWCLiRPE0x2jnwXc
 
 {
-  "title": "My first note",
+  "title": "My 3rd note",
   "description": "This is a test note"
 }
 
 ### Get All Notes
-GET http://localhost:8000/api/notes
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMjFlZjEyOC04Y2MwLTRkMzMtYTNkNi0zOTUzNWU1OTRkZTAiLCJlbWFpbCI6ImFkbWluNEBleGFtcGxlLmNvbSIsImlhdCI6MTc2MzQwNDM0MSwiZXhwIjoxNzYzNDA0NjQxfQ.rnvFF2hyanxybeRnOxqlronAplJLjJ6lpSvb-E7q3zY
-
+GET http://localhost:8000/api/notes?limit=2&page=2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMjFlZjEyOC04Y2MwLTRkMzMtYTNkNi0zOTUzNWU1OTRkZTAiLCJlbWFpbCI6ImFkbWluNEBleGFtcGxlLmNvbSIsImlhdCI6MTc2MzQwNTQ5MiwiZXhwIjoxNzYzNDA1NzkyfQ.snGThXVEpvbY_FX1Jkvo0VJCsWGfWCLiRPE0x2jnwXc
 ### Get One Note
 GET http://localhost:8000/api/notes/cac8ad9e-fae8-44e2-8f3b-6323f2a139c5
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMjFlZjEyOC04Y2MwLTRkMzMtYTNkNi0zOTUzNWU1OTRkZTAiLCJlbWFpbCI6ImFkbWluNEBleGFtcGxlLmNvbSIsImlhdCI6MTc2MzQwNDM0MSwiZXhwIjoxNzYzNDA0NjQxfQ.rnvFF2hyanxybeRnOxqlronAplJLjJ6lpSvb-E7q3zY
