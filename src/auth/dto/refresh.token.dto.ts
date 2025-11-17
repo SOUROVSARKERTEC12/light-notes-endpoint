@@ -5,3 +5,13 @@ export class RefreshTokenDto {
   @IsString()
   refreshToken: string;
 }
+
+export class ResponseTokenDto {
+  @IsNotEmpty()
+  @IsString()
+  accessToken: string;
+
+  @IsNotEmpty()
+  @IsString()
+  refreshToken: string;
+}

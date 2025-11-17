@@ -17,7 +17,7 @@ async function bootstrap() {
   );
   app.use(morgan('combined'));
   const config = new DocumentBuilder()
-    .setTitle('ULTRA TASK - Notes & Auth API')
+    .setTitle('Notes & Auth API')
     .setDescription(
       'REST API for user authentication, note management, and refresh token-based authentication system',
     )
