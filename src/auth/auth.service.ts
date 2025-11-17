@@ -12,6 +12,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { PrismaClient } from '@prisma/client';
 import { LoginDto } from './dto/login.dto';
 import { v4 as uuid } from 'uuid';
+import { RefreshTokenDto } from './dto/refresh.token.dto';
 
 @Injectable()
 export class AuthService {
@@ -100,8 +101,10 @@ export class AuthService {
     };
   }
 
-  async refresh(refreshToken: string) {
-    const tokenRecord = await this.userService.findRefreshToken(refreshToken);
+  async refresh(refreshTokenDto: RefreshTokenDto) {
+    const tokenRecord = await this.userService.findRefreshToken(
+      refreshTokenDto.refreshToken,
+    );
     if (!tokenRecord) throw new UnauthorizedException('Invalid refresh token');
 
     const user = await this.userService.getUserById(tokenRecord.userId);
@@ -119,7 +122,7 @@ export class AuthService {
     );
 
     // Replace old token with new
-    await this.userService.removeRefreshToken(refreshToken);
+    await this.userService.removeRefreshToken(refreshTokenDto.refreshToken);
     await this.userService.setRefreshToken(user.id, newRefreshToken);
 
     return {
@@ -128,8 +131,8 @@ export class AuthService {
     };
   }
 
-  async logout(refreshToken: string) {
-    await this.userService.removeRefreshToken(refreshToken);
+  async logout(RefreshTokenDto: RefreshTokenDto) {
+    await this.userService.removeRefreshToken(RefreshTokenDto.refreshToken);
     return { message: 'Logged out successfully' };
   }
 }
